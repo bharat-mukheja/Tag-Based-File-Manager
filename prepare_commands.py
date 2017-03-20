@@ -9,7 +9,8 @@ import numpy;
 import os;
 import os.path;
 from subprocess import call
-
+from RAKE import rake
+import operator
 
 
 """Help function"""
@@ -109,7 +110,62 @@ def add(inp):
  outputfile.close()
  
 
+def autotag(inp):
 
+  if(len(inp)<1):
+    print "Please specify correct filename(s)"
+    return
+
+
+  rake_object = rake.Rake("RAKE/SmartStoplist.txt", 3, 3, 1)
+  files = inp
+  for file in files:
+    if(os.path.isfile(file)):
+      fname,extension = os.path.splitext(file)
+      extension = extension[1:].strip()
+      if(extension!=''):
+        if(extension not in tag_vs_files):
+          tag_vs_files[extension]=[]
+        if(file not in tag_vs_files[extension]):
+          tag_vs_files[extension].append(file)
+      file = os.path.abspath(file)
+      if(file not in tag_vs_files[extension]):
+        tag_vs_files[extension].append(file)
+      print "Added: ",file,"with tag: ",extension
+
+      #RAKE keywords generation
+      print "Adding Text analytic tags. . ."
+
+      file_handle = open(file,'r')
+      keywords_ratings = rake_object(file_handle.read())[:50]
+      for tag,rating in keywords_ratings:
+        if tag not in tag_vs_files:
+          tag_vs_files[tag]=[]
+        if file not in tag_vs_files[tag]:
+          tag_vs_files[tag].append(file)
+        print "Added: ",file,"with tag: ",tag
+
+    elif(os.path.exists(file)):
+      for dirname, dirnames, filenames in os.walk(file):
+        for filename in filenames:
+          fname,extension = os.path.splitext(filename)
+          filepath = os.path.join(dirname, filename)
+          #print "~",dirname, dirnames, filename
+          filepath = os.path.abspath(filepath)
+          extension = extension[1:].strip()
+          if(extension!=''):
+            if(extension not in tag_vs_files):
+              tag_vs_files[extension]=[]
+            if(filepath not in tag_vs_files[extension]):
+              tag_vs_files[extension].append(filepath)
+          if(filepath not in tag_vs_files[tag]):
+            tag_vs_files[tag].append(filepath)
+          print "Added: ",filepath,"with tag: ",tag
+    else:
+      print "No such file:",file
+  outputfile = open('tag_vs_files_dictionary.pkl', 'wb')
+  cPickle.dump(tag_vs_files, outputfile) 
+  outputfile.close()
 
 """System calls"""
 def sys_call(inp):
@@ -139,10 +195,10 @@ list.append(('add',marshal.dumps(add.func_code)))
 list.append(('sys',marshal.dumps(sys_call.func_code)))
 list.append(('!',marshal.dumps(sys_call.func_code)))
 list.append(('stats',marshal.dumps(stat.func_code)))
-
+#Added for tag_based_file_manager
+list.append(('autotag',marshal.dumps(autotag.func_code)))
 
 myDict = dict(list)
-
 
 outputfile = open('command_dictionary.pkl', 'wb')
 cPickle.dump(myDict, outputfile)

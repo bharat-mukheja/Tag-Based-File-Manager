@@ -1,50 +1,31 @@
+"# tag_based_file_manager" 
 #tagfs
 
 Tag based file manager written in python (Currently a CLI)
 
 ####Coded in python--2.7
 
-
 How to use:
------------
-###Setting Up:
-Step 1:
 
-    python prepare_commands.py
+###Setting Up: Step 1:
+
+python prepare_commands.py
 Step 2:
 
-    python generate_tag_vs_files.py
+python generate_tag_vs_files.py
 Step 3:
-      
-    python main.py
 
+python main.py
 ###Commands:
-1. *tagfs#* help
-2. *tagfs#* U [tag or space separated tags]
-    UNION
-    Searches for files which match the given tag                                    or space separated tags
-3. *tagfs#* add [tag] [file or folder]
-   Indexes files/folders with the given tag
-4. *tagfs#* quit
-   or
-   *tagfs#* q
-   Exits the program loop
-5. *tagfs#* I [tags sepatated by spaces]
-   INTERSECTION
-   returns a list of files which have all specified tags
-6. *tagfs#* stats
-   Shows-
-    total no. of tags
-    total no. of files
-7. *tagfs#* ! [any command]
-   or
-   *tagfs#* sys [any command]
-   Executes a given command to system shell
 
-
->Near Future Plans:
-
->1. Add intelligent tags for files
-2. Use less space for storing tag_vs_files.pkl
-3. Add more features
-
+tagfs# help
+tagfs# U [tag or space separated tags] UNION Searches for files which match the given tag or space separated tags
+tagfs# add [tag] [file or folder] Indexes files/folders with the given tag
+tagfs# quit or tagfs# q Exits the program loop
+tagfs# I [tags sepatated by spaces] INTERSECTION returns a list of files which have all specified tags
+tagfs# stats Shows- total no. of tags total no. of files
+tagfs# ! [any command] or tagfs# sys [any command] Executes a given command to system shell
+Near Future Plans:
+Add intelligent tags for files
+Use less space for storing tag_vs_files.pkl
+Add more features

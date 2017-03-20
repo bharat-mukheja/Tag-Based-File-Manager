@@ -5,6 +5,9 @@ import sys;
 import numpy;
 import os.path, time
 from subprocess import call
+import rake
+import operator
+
 
 tag_vs_files_dictfile = 'tag_vs_files_dictionary.pkl'
 print("Running prepare_commands. . .")
@@ -55,24 +58,25 @@ commands = cPickle.load(pkl_file)
 
 #read user commands
 while(True):
-	inp = raw_input('tagfs#: ')
-	inp = inp.strip()
-	inp = inp.split(' ');
-        if(inp[0] in commands):
-	 func = types.FunctionType(marshal.loads(commands[inp[0]]), globals(), "something")
-         try:
-          if(len(inp)>1):
-           func(inp[1:])
-          else:
-	   func()
-         except:
-           print "Internal Error, is your syntax correct?"
-        elif(inp[0]=='quit' or inp[0]=='q'):
-	 print "Exiting!"
-         break;
-	elif(inp[0]=='prune'):
-	 tag_vs_files = prune_filedict(tag_vs_files);
-        elif(inp[0]==''):
-         continue
-        else:
-         print "Command not found!"
+  inp = raw_input('tagfs#: ')
+  inp = inp.strip()
+  inp = inp.split(' ')
+  if(inp[0] in commands):
+    func = types.FunctionType(marshal.loads(commands[inp[0]]), globals(), "something")
+    #try:
+    if(len(inp)>1):
+      func(inp[1:])
+    else:
+      print "Running function"
+      func()
+  #except:
+      #print "Internal Error, is your syntax correct?"
+  elif(inp[0]=='quit' or inp[0]=='q'):
+    print "Exiting!"
+    break;
+  elif(inp[0]=='prune'):
+    tag_vs_files = prune_filedict(tag_vs_files);
+  elif(inp[0]==''):
+    continue
+  else:
+    print "Command not found!"
