@@ -1,4 +1,3 @@
-"# tag_based_file_manager" 
 #tagfs
 
 Tag based file manager written in python (Currently a CLI)
