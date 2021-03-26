@@ -1,21 +1,23 @@
-#tagfs
+# tagfs
 
 Tag based file manager written in python (Currently a CLI)
 
-####Coded in python--2.7
+#### Coded in python--2.7
 
-How to use:
+## How to use:
 
-###Setting Up: Step 1:
+### Setting Up: 
 
+Step 1:
 python prepare_commands.py
+
 Step 2:
-
 python generate_tag_vs_files.py
-Step 3:
 
+Step 3:
 python main.py
-###Commands:
+
+### Commands:
 
 tagfs# help
 tagfs# U [tag or space separated tags] UNION Searches for files which match the given tag or space separated tags
